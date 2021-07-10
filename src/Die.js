@@ -17,11 +17,12 @@ class Die extends Component {
   }
 
   render() {
-    const { numberWords, locked, val, disabled } = this.props;
+    const { numberWords, locked, val, disabled, rolling } = this.props;
 
     let classes = `Die fas fa-dice-${numberWords[val - 1]} fa-5x `;
 
     if (locked) classes += " Die-locked"
+    if (rolling) classes += " Die-rolling"; //no need of space here as rolling and locked will not be together ever
 
     return (
       <i
