@@ -95,6 +95,8 @@ class Game extends Component {
   }
 
   render() {
+    const { dice, locked, rollsLeft, rolling, scores } = this.state; //to make code cleaner
+
     return (
       <div className='Game'>
         <header className='Game-header'>
@@ -102,16 +104,19 @@ class Game extends Component {
 
           <section className='Game-dice-section'>
             <Dice
-              dice={this.state.dice}
-              locked={this.state.locked}
+              dice={dice}
+              locked={locked}
               handleClick={this.toggleLocked}
-              disabled={this.state.rollsLeft === 0}
-              rolling={this.state.rolling}
+              disabled={rollsLeft === 0}
+              rolling={rolling}
             />
             <div className='Game-button-wrapper'>
               <button
                 className='Game-reroll'
-                disabled={this.state.locked.every(x => x) || this.state.rollsLeft === 0}
+                disabled={locked.every(x => x)
+                  || rollsLeft === 0
+                  || rolling}  //bug fix to not be able to click the button while rolling
+
                 onClick={this.animateRoll}
               >
                 {this.displayRollInfo()}
@@ -119,7 +124,7 @@ class Game extends Component {
             </div>
           </section>
         </header>
-        <ScoreTable doScore={this.doScore} scores={this.state.scores} />
+        <ScoreTable doScore={this.doScore} scores={scores} />
       </div>
     );
   }
